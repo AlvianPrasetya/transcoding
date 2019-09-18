@@ -34,7 +34,11 @@ func (transcoder *NVENCTranscoder) Transcode(task *TranscodeTask) error {
 	args = append(args, "-i", task.Input.URI)
 
 	for _, output := range task.Outputs {
-		args = append(args, "-vf", fmt.Sprintf("scale_npp=-2:%d", output.Resolution))
+		if transcoder.Acceleration {
+			args = append(args, "-vf", fmt.Sprintf("scale_npp=-2:%d", output.Resolution))
+		} else {
+			args = append(args, "-vf", fmt.Sprintf("scale=-2:%d", output.Resolution))
+		}
 		args = append(args, "-c:v", "h264_nvenc")
 		args = append(args, "-preset", string(transcoder.Preset))
 		args = append(args, "-b:v", fmt.Sprintf("%dk", output.VideoBitrateKbps))
