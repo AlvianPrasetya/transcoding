@@ -76,7 +76,7 @@ func main() {
 	libx264 := transcoder.NVENCTranscoder{
 		Benchmark:    true,
 		Acceleration: true,
-		Preset:       transcoder.PresetFaster,
+		Preset:       transcoder.PresetFast,
 	}
 	if err := libx264.Transcode(transcodeTask); err != nil {
 		log.Print(err)
